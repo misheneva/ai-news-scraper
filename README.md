@@ -1,6 +1,8 @@
 # AI News Scraper and Telegram Publisher
 
 Автоматизированная система на Python для сбора новостей об ИИ из множественных источников и публикации их в Telegram канал. Включает фильтрацию по дате, классификацию с помощью нейросетей и интеграцию с X (Twitter).
+<img width="1350" height="507" alt="XLFDYXD14BxtKnIvUDe5tP-3X67NrOCN3wu-G3FfJGOcCqjtXtKHmMJKYmiY2887bts3R73OMJD9Ng7wZQoQz0HdC0X9khkglg---icHiLBRqJ0M3-2rKN0YwUTf9FjQ3k4irN3y75we2mEdePRdIiD5P0VmIiMgYdYIMY5YTMR1fg2Z_i12Bz8gj56Q2A8y3csgZP1yG0UlSObpTuLtTCvmwYQOyxi3qd1sNGTk-F4hBjs4" src="https://github.com/user-attachments/assets/dade7fb6-47e7-48a0-b3a2-c853c7303bc2" />
+
 
 ## 🚀 Основные возможности
 
@@ -65,6 +67,7 @@ ai-news-scraper/
 ├── ai_news_scraper.log   # Логи приложения (создается автоматически)
 └── news_articles.db      # База данных SQLite (создается автоматически)
 ```
+<img width="993" height="781" alt="RPF1ZjiW48RlFCMyGBHt7wfTPLifKb9jbLOzhYPuraQB0J53gxJgknSxXjXQNw8m31___3z-PC4eQR1AZ5Y2fmDyfTyCPnqnK0HqBNmdIrt40LxInHhkSta7Jr7tHaXBYgIKjiWC9pJkDLpXhmBux2HU8NZZ9A_snmFu8COxLf3XFRN96jUfV-MizkxDTENqVbgbYECH1JTDx5FKD0Ag8YQHZ1bh9sB6Za1e21Q5Skdeksvr" src="https://github.com/user-attachments/assets/11877adf-0d5c-43e0-aec0-3e233897de84" />
 
 ## 🚀 Использование
 
