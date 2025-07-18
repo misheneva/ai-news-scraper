@@ -1,201 +1,332 @@
 # AI News Scraper and Telegram Publisher
 
-An automated Python system that scrapes AI news articles from multiple sources and publishes them to a Telegram channel. Built with BeautifulSoup for web scraping and aiogram for Telegram integration.
+Автоматизированная система на Python для сбора новостей об ИИ из множественных источников и публикации их в Telegram канал. Включает фильтрацию по дате, классификацию с помощью нейросетей и интеграцию с X (Twitter).
 
-## 🚀 Features
+## 🚀 Основные возможности
 
-- **Multi-source scraping**: Collects news from Reuters, Tech in Asia, and SCMP
-- **Deduplication**: Prevents duplicate articles using SQLite database
-- **Telegram integration**: Publishes formatted articles to your channel
-- **Scheduling**: Runs automatically on configurable intervals
-- **Error handling**: Robust error handling and logging
-- **Rate limiting**: Respects website rate limits and robots.txt
+- **Многоисточниковый сбор новостей**: Собирает новости с 13 различных источников
+- **Фильтрация по дате**: Исключает статьи старше 2 недель
+- **Классификация с помощью ИИ**: Автоматическая категоризация новостей
+- **Интеграция с X (Twitter)**: Публикация твитов с полным текстом
+- **Суммаризация статей**: Автоматическое сокращение длинных статей
+- **Предотвращение дубликатов**: SQLite база данных для отслеживания
+- **Интеграция с Telegram**: Форматированная публикация в канал
+- **Планировщик**: Автоматический запуск по расписанию
+- **Обработка ошибок**: Надежная обработка сбоев и логирование
+- **Соблюдение лимитов**: Встроенные задержки для уважения к сайтам
 
-## 📋 Requirements
+## 📋 Требования
 
 - Python 3.8+
 - Telegram Bot Token
 - Telegram Channel ID
+- X (Twitter) Bearer Token (опционально)
 
-## 🛠️ Installation
+## 🛠️ Установка
 
-1. **Clone or download the project files**
+1. **Клонируйте репозиторий**:
+```bash
+git clone https://github.com/yourusername/ai-news-scraper.git
+cd ai-news-scraper
+```
 
-2. **Install dependencies**:
+2. **Установите зависимости**:
 ```bash
 pip3 install -r requirements.txt
 ```
 
-3. **Configure your settings**:
-   - Edit `config.py` to update your Telegram bot token and chat ID
-   - Adjust scraping parameters as needed
-
-## 📁 Project Structure
-
-```
-Parser/
-├── main.py                 # Main application entry point
-├── config.py              # Configuration settings
-├── database.py            # SQLite database operations
-├── scraper.py             # Web scraping logic
-├── telegram_publisher.py  # Telegram publishing
-├── requirements.txt       # Python dependencies
-├── README.md             # This file
-├── ai_news_scraper.log   # Application logs (created automatically)
-└── news_articles.db      # SQLite database (created automatically)
+3. **Настройте переменные окружения**:
+   - Создайте файл `.env` в корневой директории
+   - Добавьте следующие переменные:
+```env
+X_BEARER_TOKEN=your_twitter_bearer_token_here
 ```
 
-## 🚀 Usage
+4. **Настройте конфигурацию**:
+   - Отредактируйте `config.py` для обновления токена бота и ID чата
+   - Настройте параметры скрапинга по необходимости
 
-### Quick Start
+## 📁 Структура проекта
 
-Run the scraper once to test:
+```
+ai-news-scraper/
+├── main.py                 # Основная точка входа приложения
+├── config.py              # Настройки конфигурации
+├── database.py            # Операции с SQLite базой данных
+├── scraper.py             # Логика веб-скрапинга и X API
+├── telegram_publisher.py  # Публикация в Telegram
+├── classifier.py          # Классификация контента с помощью ИИ
+├── summarizer.py          # Суммаризация статей
+├── requirements.txt       # Зависимости Python
+├── README.md             # Этот файл
+├── .gitignore            # Игнорируемые Git файлы
+├── ai_news_scraper.log   # Логи приложения (создается автоматически)
+└── news_articles.db      # База данных SQLite (создается автоматически)
+```
+
+## 🚀 Использование
+
+### Быстрый старт
+
+Запустить скрапер один раз для тестирования:
 ```bash
 python3 main.py --once
 ```
 
-### Scheduled Operation
+### Запланированная работа
 
-Run the scraper every hour (default):
+Запустить скрапер каждый час (по умолчанию):
 ```bash
 python3 main.py
 ```
 
-Run every 2 hours:
+Запустить каждые 2 часа:
 ```bash
 python3 main.py --schedule 2
 ```
 
-### Command Line Options
+### Работа с X (Twitter)
 
-- `--once`: Run once and exit
-- `--schedule N`: Run every N hours (default: 1)
-
-## 📰 News Sources
-
-The system scrapes AI news from:
-
-1. **Reuters AI Section**: https://www.reuters.com/technology/artificial-intelligence/
-2. **Tech in Asia AI Category**: https://www.techinasia.com/category/artificial-intelligence
-3. **SCMP Tech Section**: https://www.scmp.com/tech
-
-## 📊 Telegram Message Format
-
-Articles are published in this format:
-
-```
-*Article Title*
-
-Article content (truncated if too long)...
-
-Source: Source Name | [Read Full Article](URL)
+Опубликовать новые твиты:
+```bash
+python3 main.py --post-tweets
 ```
 
-## ⚙️ Configuration
+Экспортировать твиты в JSON:
+```bash
+python3 main.py --export-tweets tweets.json
+```
 
-Edit `config.py` to customize:
+### Опции командной строки
 
-- **Telegram settings**: Bot token and chat ID
-- **Scraping parameters**: Delays, timeouts, retries
-- **Message format**: Customize how articles appear
-- **Source selectors**: CSS selectors for each website
+- `--once`: Запустить один раз и выйти
+- `--schedule N`: Запускать каждые N часов (по умолчанию: 1)
+- `--post-tweets`: Опубликовать новые твиты в Telegram
+- `--export-tweets FILE`: Экспортировать твиты в JSON файл
+- `--test-classifier TEXT`: Тестировать классификатор на тексте
+- `--check-api-status`: Проверить подключение к X API
+- `--test-news-classifier`: Тестировать классификатор на реальных новостях
+- `--send-test-news`: Отправить тестовые новости в Telegram
+- `--test-summarizer`: Тестировать суммаризацию статей
+- `--debug-tweets`: Отладочный режим для твитов
 
-## 🔧 Customization
+## 📰 Источники новостей
 
-### Adding New Sources
+Система собирает новости ИИ из следующих источников:
 
-1. Add source configuration to `NEWS_SOURCES` in `config.py`:
+### Основные источники:
+1. **Epoch AI - Data Insights**: https://epoch.ai/data-insights
+2. **Epoch AI - Blog**: https://epoch.ai/blog
+3. **Epoch AI - Gradient Updates**: https://epoch.ai/gradient-updates
+4. **METR Research**: https://metr.org/research/
+5. **TechXplore Latest News**: https://techxplore.com/latest-news/
+6. **Forbes Innovation**: https://www.forbes.com/innovation/
+7. **Forbes AI**: https://www.forbes.com/ai/
+8. **Sakana AI Blog**: https://sakana.ai/blog/
+9. **Interesting Engineering**: https://interestingengineering.com/innovation
+
+### Дополнительные источники:
+10. **VentureBeat AI**: https://venturebeat.com/category/ai/
+11. **SCMP Tech**: https://www.scmp.com/tech
+12. **AI News**: https://artificialintelligence-news.com/
+13. **The Verge AI**: https://www.theverge.com/ai-artificial-intelligence
+
+### X (Twitter):
+- Настраиваемые аккаунты для мониторинга твитов
+
+## 📊 Формат сообщений в Telegram
+
+### Новостные статьи:
+```
+🚀 НОВЫЙ РЕЛИЗ
+
+*Заголовок статьи*
+
+Содержание статьи (суммаризированное при необходимости)...
+
+Source: Название источника | [Читать полную статью](URL)
+```
+
+### Твиты из X:
+```
+📄 НОВОЕ ИССЛЕДОВАНИЕ
+
+Полный текст твита...
+
+---
+
+Автор: **Имя автора** ( @username )
+
+[🔗 Оригинал в X](URL)
+```
+
+## ⚙️ Конфигурация
+
+### Основные настройки в `config.py`:
+
+- **Telegram**: Токен бота и ID чата
+- **Параметры скрапинга**: Задержки, таймауты, повторы
+- **Фильтрация по дате**: Максимальный возраст статей (14 дней)
+- **Формат сообщений**: Настройка отображения статей
+- **Селекторы источников**: CSS селекторы для каждого сайта
+
+### Настройки фильтрации:
+
+```python
+MAX_ARTICLE_AGE_DAYS = 14  # Максимальный возраст статей в днях
+REQUEST_DELAY = 2          # Задержка между запросами в секундах
+MAX_RETRIES = 3            # Максимальное количество повторов
+```
+
+## 🔧 Кастомизация
+
+### Добавление новых источников
+
+1. Добавьте конфигурацию источника в `NEWS_SOURCES` в `config.py`:
 ```python
 "new_source": {
-    "name": "New Source Name",
+    "name": "Название нового источника",
     "url": "https://example.com/ai-news",
     "article_links_selector": "a[href*='/article/']",
     "title_selector": "h1",
-    "content_selector": ".article-content p",
+    "content_selector": "article p",
+    "date_selector": "time, .published-date",
     "base_url": "https://example.com"
 }
 ```
 
-2. Update the `_is_valid_article_url` method in `scraper.py` if needed.
+2. Обновите метод `_is_valid_article_url` в `scraper.py` при необходимости.
 
-### Modifying Message Format
+### Изменение формата сообщений
 
-Edit the `MESSAGE_TEMPLATE` in `config.py` to change how articles appear in Telegram.
+Отредактируйте `MESSAGE_TEMPLATE` в `config.py` для изменения отображения статей в Telegram.
 
-## 📈 Monitoring
+### Настройка классификации
 
-The system provides comprehensive logging:
+Система использует нейросетевую классификацию для категоризации новостей:
 
-- **Console output**: Real-time status updates
-- **Log file**: `ai_news_scraper.log` for detailed logs
-- **Telegram status**: Summary messages sent to your channel
+- 🚀 **НОВЫЙ РЕЛИЗ**: Запуски продуктов и релизы
+- ✨ **ПРЕДСТАВЛЕНА НОВАЯ МОДЕЛЬ**: Новые ИИ модели
+- 🎉 **ЗАПУСК ПРОДУКТА**: Запуски платформ и сервисов
+- 🔥 **ДОСТУПНО ОБНОВЛЕНИЕ**: Обновления и улучшения
+- 📄 **НОВОЕ ИССЛЕДОВАНИЕ**: Научные работы и исследования
+- 🔬 **ОПУБЛИКОВАНА СТАТЬЯ**: Технические статьи
+- ⚠️ **ВАЖНОЕ СОБЫТИЕ**: Критически важные новости
+- ⚡️ **МОЛНИЯ**: Срочные новости
+- 📊 **АНАЛИТИКА**: Аналитические материалы
 
-## 🛡️ Best Practices
+## 📈 Мониторинг
 
-- **Rate limiting**: Built-in delays prevent overwhelming websites
-- **Error handling**: Graceful handling of network issues
-- **Deduplication**: Prevents spam and duplicate content
-- **Logging**: Comprehensive logging for debugging
+Система предоставляет подробное логирование:
 
-## 🔍 Troubleshooting
+- **Консольный вывод**: Обновления статуса в реальном времени
+- **Файл логов**: `ai_news_scraper.log` для детальных логов
+- **Статус в Telegram**: Сводные сообщения отправляются в канал
+- **Статистика**: Количество обработанных и опубликованных статей
 
-### Common Issues
+### Проверка статуса:
+```bash
+python3 status.py
+```
 
-1. **"chat not found" error**:
-   - Ensure the bot is added to the channel as an admin
-   - Verify the chat ID is correct (use `-100` prefix for channels)
+## 🛡️ Лучшие практики
 
-2. **No articles found**:
-   - Check website selectors in `config.py`
-   - Verify websites are accessible
-   - Check logs for specific errors
+- **Ограничение скорости**: Встроенные задержки предотвращают перегрузку сайтов
+- **Обработка ошибок**: Graceful обработка сетевых проблем
+- **Предотвращение дубликатов**: Предотвращает спам и повторный контент
+- **Фильтрация по дате**: Исключает устаревшие статьи (старше 2 недель)
+- **Логирование**: Подробное логирование для отладки
 
-3. **Telegram API errors**:
-   - Verify bot token is correct
-   - Check bot permissions in the channel
+## 🔍 Устранение неполадок
 
-### Debug Mode
+### Частые проблемы
 
-Enable debug logging by changing `LOG_LEVEL = "DEBUG"` in `config.py`.
+1. **Ошибка "chat not found"**:
+   - Убедитесь, что бот добавлен в канал как администратор
+   - Проверьте правильность ID чата (используйте префикс `-100` для каналов)
 
-## 📝 Logs
+2. **Статьи не найдены**:
+   - Проверьте селекторы сайтов в `config.py`
+   - Убедитесь, что сайты доступны
+   - Проверьте логи на наличие конкретных ошибок
 
-The system creates detailed logs in `ai_news_scraper.log`:
+3. **Ошибки Telegram API**:
+   - Проверьте правильность токена бота
+   - Проверьте права бота в канале
 
-- Scraping progress
-- Article processing
-- Telegram publishing status
-- Error details
+4. **Проблемы с X API**:
+   - Проверьте Bearer Token
+   - Убедитесь в наличии необходимых прав API
 
-## 🔄 Database
+5. **Старые статьи попадают в канал**:
+   - Проверьте настройку `MAX_ARTICLE_AGE_DAYS`
+   - Убедитесь, что селекторы дат работают корректно
 
-The SQLite database (`news_articles.db`) stores:
+### Режим отладки
 
-- Processed article URLs
-- Article titles and sources
-- Processing timestamps
+Включите отладочное логирование, изменив `LOG_LEVEL = "DEBUG"` в `config.py`.
 
-## 📋 Dependencies
+## 📝 Логи
+
+Система создает детальные логи в `ai_news_scraper.log`:
+
+- Прогресс скрапинга
+- Обработка статей
+- Статус публикации в Telegram
+- Детали ошибок
+- Статистика фильтрации по дате
+
+## 🔄 База данных
+
+SQLite база данных (`news_articles.db`) хранит:
+
+- Обработанные URL статей
+- Заголовки и источники статей
+- Временные метки обработки
+- Последние ID твитов для предотвращения дубликатов
+
+## 📋 Зависимости
+
+Основные зависимости:
 
 - `aiogram`: Telegram Bot API
-- `requests`: HTTP requests
-- `beautifulsoup4`: HTML parsing
-- `lxml`: XML/HTML parser
-- `schedule`: Task scheduling
-- `sqlite3`: Database (built-in)
+- `requests`: HTTP запросы
+- `beautifulsoup4`: Парсинг HTML
+- `lxml`: Парсер XML/HTML
+- `transformers`: Модели для классификации и суммаризации
+- `torch`: PyTorch для нейросетей
+- `httpx`: Асинхронные HTTP запросы
+- `tenacity`: Повторные попытки запросов
+- `schedule`: Планировщик задач
+- `sqlite3`: База данных (встроенная)
 
-## 🤝 Contributing
+## 🤝 Участие в разработке
 
-1. Fork the repository
-2. Create a feature branch
-3. Make your changes
-4. Test thoroughly
-5. Submit a pull request
+1. Сделайте форк репозитория
+2. Создайте ветку для новой функции
+3. Внесите изменения
+4. Тщательно протестируйте
+5. Отправьте pull request
 
-## 📄 License
+## 📄 Лицензия
 
-This project is open source and available under the MIT License.
+Этот проект является открытым исходным кодом и доступен под лицензией MIT.
 
-## ⚠️ Disclaimer
+## 📞 Поддержка
 
-This tool is for educational and personal use. Please respect website terms of service and robots.txt files. The authors are not responsible for any misuse of this software. 
+Если у вас есть вопросы или проблемы:
+
+1. Проверьте раздел "Устранение неполадок" выше
+2. Просмотрите логи в `ai_news_scraper.log`
+3. Создайте issue в репозитории GitHub
+
+## 🔮 Планы развития
+
+- [ ] Поддержка большего количества источников
+- [ ] Улучшенная классификация с помощью ИИ
+- [ ] Веб-интерфейс для управления
+- [ ] Поддержка нескольких языков
+- [ ] Интеграция с другими мессенджерами
+- [ ] Анализ тональности новостей
+- [ ] Персонализированные рекомендации
+
