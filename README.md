@@ -14,7 +14,7 @@
 - **Планировщик**: Автоматический запуск по расписанию
 - **Обработка ошибок**: Надежная обработка сбоев и логирование
 - **Соблюдение лимитов**: Встроенные задержки для уважения к сайтам
-![Uploading TLHDZ_8s4BxpAwPS2D82gjHJJoylTCLAiAB0Qdj3ZZqGIuwTsfEbjEf_xymc1D9jLwia_fZduncRRubKfBfqWn-irwus20LHbNwUpQAwJC-MYZgl4qOTFA6dgGxbh7BAIyqaaN4sdor-ccnbwcspdfKg4KQUEYwuGbcFSLe9_c04IwlEKPLmiEHmGFA4RbUtUWeHvY_mYfS4UnrLnMlP8iI8cj2C1MYkASGqs69CmMSYxmc6.png…]()
+<img width="1122" height="870" alt="TLHDZ_8s4BxpAwPS2D82gjHJJoylTCLAiAB0Qdj3ZZqGIuwTsfEbjEf_xymc1D9jLwia_fZduncRRubKfBfqWn-irwus20LHbNwUpQAwJC-MYZgl4qOTFA6dgGxbh7BAIyqaaN4sdor-ccnbwcspdfKg4KQUEYwuGbcFSLe9_c04IwlEKPLmiEHmGFA4RbUtUWeHvY_mYfS4UnrLnMlP8iI8cj2C1MYkASGqs69CmMSYxmc6" src="https://github.com/user-attachments/assets/be9b7a67-b315-48bf-bf04-40a94100f8ef" />
 
 
 ## 📋 Требования
