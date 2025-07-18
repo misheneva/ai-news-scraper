@@ -14,6 +14,8 @@
 - **Планировщик**: Автоматический запуск по расписанию
 - **Обработка ошибок**: Надежная обработка сбоев и логирование
 - **Соблюдение лимитов**: Встроенные задержки для уважения к сайтам
+![Uploading TLHDZ_8s4BxpAwPS2D82gjHJJoylTCLAiAB0Qdj3ZZqGIuwTsfEbjEf_xymc1D9jLwia_fZduncRRubKfBfqWn-irwus20LHbNwUpQAwJC-MYZgl4qOTFA6dgGxbh7BAIyqaaN4sdor-ccnbwcspdfKg4KQUEYwuGbcFSLe9_c04IwlEKPLmiEHmGFA4RbUtUWeHvY_mYfS4UnrLnMlP8iI8cj2C1MYkASGqs69CmMSYxmc6.png…]()
+
 
 ## 📋 Требования
 
